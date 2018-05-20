@@ -24,7 +24,10 @@ W = tf.Variable(tf.zeros([784,10]))
 #[10,10]不行,tf.zeros([1,10]和tf.zeros([10]是等效的，10列输出每列代表0-9中的一个识别选项
 b = tf.Variable(tf.zeros([1,10]))
 #用softmax函数作为activation function，将计算出0-9每种选项的概率
-prediction = tf.nn.softmax(tf.matmul(x,W)+b)
+#b站网友说：tf.nn.softmax_cross_entropy_with_logits，这个函数会先做softmax，4-1中作者换loss的时候没有吧上面的softmax删除
+prediction = tf.matmul(x,W)+b#tf.nn.softmax(tf.matmul(x,W)+b)
+#我对比试验了两组，prediction = tf.matmul(x,W)+b的精确度稍微高于tf.nn.softmax(tf.matmul(x,W)+b)
+#后面的代码基于4.1做的，也有这个问题
 
 #对数似然代价函数/交叉熵，我对比了一下，比二次代价函数收敛的速度快
 #因为对数似然代价函数后期的调整速度，与误差的大小成正比，所以收敛速度比二次代价函数快
