@@ -19,6 +19,8 @@ n_batch = mnist.train.num_examples//batch_size
 x = tf.placeholder(tf.float32,[None,784])#任意行，784列
 y = tf.placeholder(tf.float32,[None,10])#任意行，10列（输出10个标签）
 keep_prob = tf.placeholder(tf.float32)#dropout留存百分比
+#learning rate
+lr = tf.Variable(0.001,tf.float32)
 
 #用截断正态分布初始化比初始化为0,效果更好
 # W = tf.Variable(tf.zeros([784,10]))
@@ -49,7 +51,8 @@ loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y,logits
 #优化器
 #train = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
 #1e-3代表10的-3次方，也可以用0.001
-train = tf.train.AdamOptimizer(1e-3).minimize(loss)
+#train = tf.train.AdamOptimizer(1e-3).minimize(loss)
+train = tf.train.AdamOptimizer(lr).minimize(loss)
 
 init = tf.global_variables_initializer()
 
@@ -65,6 +68,7 @@ accuracy = tf.reduce_mean(tf.cast(correction_prediction,tf.float32))
 with tf.Session() as sess:
     sess.run(init)
     for step in range(5):#总共数据反复训练21次，训练5个周期示例一下，要么电脑太慢
+        sess.run(tf.assign(lr,0.001*(0.95**step)))#学习率随着训练周期不断减小，接近最优解时，减小调整步长，以达到更接近最优解
         for batch in range(n_batch):#注意要加range，每批数据数据集分成多个批次
             batch_xs,batch_ys = mnist.train.next_batch(batch_size)
             sess.run(train,feed_dict={x:batch_xs,y:batch_ys,keep_prob:0.6})
