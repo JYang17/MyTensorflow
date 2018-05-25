@@ -9,9 +9,15 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data",one_hot=True)
 
 #每个批次大小
-batch_size = 100
+#ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[10000,32,28,28] and type float on 
+#batch_size = 100
+batch_size = 10
 #计算一共有多少个批次,除完取整
 n_batch = mnist.train.num_examples//batch_size
+#测试集每个batch大小
+test_batch_size = 10
+#测试集一共有多少个批次
+n_test_batch = mnist.test.num_examples//test_batch_size
 
 #初始化weight
 def weight_variable(shape):
@@ -118,5 +124,13 @@ with tf.Session() as sess:
             sess.run(train,feed_dict={x:batch_xs,y:batch_ys,keep_prob:0.7})
         
         #用测试集，进行测试
-        acc = sess.run(accuracy,feed_dict={x:mnist.test.images,y:mnist.test.labels,keep_prob:0.7})
-        print("Step:"+str(step)+" Accuracy:"+str(acc))
+        #https://github.com/tensorflow/tensorflow/issues/136
+        #可能GPU内存不够一下子加载所有测试集数据，所以也需要像训练集一样，分batch去feed
+        # acc = sess.run(accuracy,feed_dict={x:mnist.test.images,y:mnist.test.labels,keep_prob:0.7})
+        # print("Step:"+str(step)+" Accuracy:"+str(acc))
+        total_accuracy = 0.0
+        for test_batch in range(n_test_batch):
+            test_batch_xs,test_batch_ys = mnist.test.next_batch(test_batch_size)
+            total_accuracy+=sess.run(accuracy,feed_dict={x:test_batch_xs,y:test_batch_ys,keep_prob:1.0})
+
+        print("Step:"+str(step)+" Accuracy:"+str(total_accuracy/n_test_batch))
