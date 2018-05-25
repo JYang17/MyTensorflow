@@ -5,6 +5,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 #安装tensorflow-gpu时遇见的坑：
 # tensoflow-gpu version 1.5.0, pip install tensorflow-gpu==1.5.0
+#tensorflow-gpu==1.7.0下，本代码也好用
 #install CUDA 9.0 cuda_9.0.176_windows_network with patch 1 and patch 2
 #安装CUDA 9.0后
 #系统环境变量配置variable name: CUDA_PATH variable value: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\lib\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0
