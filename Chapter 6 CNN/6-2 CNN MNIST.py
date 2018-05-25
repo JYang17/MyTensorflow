@@ -3,6 +3,14 @@
 import tensorflow as tf 
 from tensorflow.examples.tutorials.mnist import input_data
 
+#安装tensorflow-gpu时遇见的坑：
+# tensoflow-gpu version 1.5.0, pip install tensorflow-gpu==1.5.0
+#install CUDA 9.0 cuda_9.0.176_windows_network with patch 1 and patch 2
+#安装CUDA 9.0后
+#系统环境变量配置variable name: CUDA_PATH variable value: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\lib\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0
+#cmd下输入nvcc -V，来试环境变量配置正确否
+#cudnn-9.0-windows7-x64-v7，注意CUDA和cudnn版本一定要完全匹配
+
 #载入数据集
 #one-hot：将标签转化为的某一行，某一位是1，其他位都是0的形式
 #"MNIST_data"创建一个当前程序路径下的文件夹，下载存放MNIST图片数据，也可以用绝对路径
