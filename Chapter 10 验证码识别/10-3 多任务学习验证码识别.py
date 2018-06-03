@@ -101,6 +101,7 @@ with tf.Session() as sess:
     one_hot_labels2 = tf.one_hot(indices=tf.cast(y2, tf.int32), depth=CHAR_SET_LEN)
     one_hot_labels3 = tf.one_hot(indices=tf.cast(y3, tf.int32), depth=CHAR_SET_LEN)
     # 计算loss
+    #用sigmoid_cross_entropy_with_logits代替softmax_cross_entropy_with_logits_v2，更合理一些，这与alexnet实现有关
     loss0 = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits0,labels=one_hot_labels0)) 
     loss1 = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits1,labels=one_hot_labels1)) 
     loss2 = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits2,labels=one_hot_labels2)) 
