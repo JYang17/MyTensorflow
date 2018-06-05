@@ -27,7 +27,7 @@ filepath= "D:/tensorflow sample/MyTensorflow/captcha/"
 #'d:/ten/'
 file=open(filepath+filename,'w')
 # tfrecord文件存放路径
-TFRECORD_FILE= "D:/tensorflow sample/MyTensorflow/captcha/train.tfrecords"
+TFRECORD_FILE= "D:/tensorflow sample/MyTensorflow/captcha/train.tfrecord"
 #"D:/ten/train.tfrecords"
 
 # placeholder
@@ -79,6 +79,7 @@ image_batch, label_batch0, label_batch1, label_batch2, label_batch3 = tf.train.s
         [image, label0, label1, label2, label3], batch_size = BATCH_SIZE,
         capacity = 50000, min_after_dequeue=10000, num_threads=1)
         #capacity = 50000, min_after_dequeue=10000, num_threads=1) #这行参数配置的有问题？
+        #原因是train.tfrecord这个路径之前后面多加了一个s
 # tensorflow.python.framework.errors_impl.OutOfRangeError: RandomShuffleQueue '_0_shuffle_batch/random_shuffle_queue' is closed and has insufficient elements (requested 25, current size 0)
 
 #定义网络结构
